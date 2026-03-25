@@ -16,7 +16,7 @@ from sklearn.metrics import mean_absolute_error, r2_score
 import joblib
 import os
 
-st.set_page_config(page_title="AI Waste Management | CMT 444", layout="wide")
+st.set_page_config(page_title=" Waste Management | CMT 444", layout="wide")
 
 # ============================================
 # NEMA 2024 OFFICIAL DATA
@@ -108,14 +108,14 @@ def train_ml_models():
         organic = np.random.uniform(50, 80)
         plastic = np.random.uniform(10, 35)
         
-        # Calculate targets based on NEMA physics + noise
+        # Calculate targets based on NEMA  
         daily_waste = (pop * 0.5) / 1000
         fill = min(100, (daily_waste / (bins * 50)) * 100)
         overflow = max(0, (100 - fill) / 12)
         clean = (recycling * 0.4) + (collection * 0.3) + ((1 - fill/100) * 30)
         clean = min(100, max(0, clean))
         
-        # Add realistic noise
+        # Add realistic 
         fill += np.random.normal(0, 3)
         overflow += np.random.normal(0, 0.5)
         clean += np.random.normal(0, 2)
@@ -221,7 +221,7 @@ h1, h2, h3, p, .stMarkdown { color: white; }
 with st.sidebar:
     st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Flag_of_Kenya.svg/1200px-Flag_of_Kenya.svg.png", width=70)
     
-    st.markdown("### CMT 444: Distributed ML")
+   
     st.markdown("---")
     
     st.markdown("### 📍 Select County")
@@ -235,7 +235,7 @@ with st.sidebar:
     st.markdown(f"**Threshold:** {NEMA['threshold']}%")
     
     st.markdown("---")
-    st.markdown("### 🤖 ML Model Performance")
+    st.markdown("###  ML Model Performance")
     st.metric("Fill Model R²", f"{models['fill_accuracy']:.2%}")
     st.metric("Clean Model R²", f"{models['clean_accuracy']:.2%}")
     st.metric("Overflow MAE", f"{models['overflow_mae']:.2f} hours")

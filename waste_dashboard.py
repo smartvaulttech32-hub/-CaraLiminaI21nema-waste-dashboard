@@ -1,4 +1,3 @@
-
 # DISTRIBUTED MACHINE LEARNING
 # WASTE MANAGEMENT DASHBOARD
 # NEMA 2024 | CLEAN CITIES | FEDERATED LEARNING
@@ -12,9 +11,9 @@ import random
 
 st.set_page_config(page_title="NEMA Waste Management | CMT 444", layout="wide")
 
-
+# ============================================
 # NEMA 2024 OFFICIAL DATA
-
+# ============================================
 NEMA = {
     "national": 22000,
     "per_capita": 0.5,
@@ -29,9 +28,9 @@ NEMA = {
     "source": "Simplified Waste Management Regulations, 2024"
 }
 
-
+# ============================================
 # KENYAN COUNTIES DATA
-
+# ============================================
 COUNTIES = {
     "Nairobi": {
         "pop": 4397000, "bins": 50, "waste_tons": 2198,
@@ -75,9 +74,9 @@ COUNTIES = {
     }
 }
 
-
+# ============================================
 # RESEARCH DATA
-
+# ============================================
 RESEARCH = {
     "best_practices": [
         {"practice": "Segregation at Source", "impact": "65% waste reduction", "cost": "Low"},
@@ -94,9 +93,9 @@ RESEARCH = {
     ]
 }
 
-
-# FEDERATED LEARNING 
-
+# ============================================
+# FEDERATED LEARNING
+# ============================================
 class FedAvg:
     def __init__(self):
         self.weights = {}
@@ -110,9 +109,9 @@ for c, d in COUNTIES.items():
     fl.train(c, d)
 global_w = fl.aggregate()
 
-
-# DARK THEME
-
+# ============================================
+# DARK THEME WITH VISIBLE NUMBERS
+# ============================================
 st.markdown("""
 <style>
 .stApp { background-color: #0a0f1a; }
@@ -120,12 +119,25 @@ st.markdown("""
 .stMetric .stMarkdown { color: white; font-size: 28px; font-weight: bold; }
 [data-testid="stSidebar"] { background-color: #0f1724; border-right: 2px solid #CC0000; }
 h1, h2, h3, p, .stMarkdown { color: white; }
+
+/* Make numbers in gauges larger and brighter */
+.gauge-number {
+    font-size: 60px !important;
+    font-weight: bold !important;
+    fill: #ffaa66 !important;
+}
+
+/* Make percentage text visible */
+.plotly .number {
+    font-size: 48px !important;
+    fill: #ffaa66 !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
-
+# ============================================
 # SIDEBAR
-
+# ============================================
 with st.sidebar:
     st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Flag_of_Kenya.svg/1200px-Flag_of_Kenya.svg.png", width=70)
     
@@ -154,19 +166,20 @@ with st.sidebar:
     sorted_cities = sorted(COUNTIES.items(), key=lambda x: x[1]["clean_score"], reverse=True)
     for i, (c, d) in enumerate(sorted_cities[:3], 1):
         emoji = "🥇" if i == 1 else "🥈" if i == 2 else "🥉"
-        st.markdown(f"{emoji} **{c}** - {d['clean_score']}%")
+        st.markdown(f"{emoji} **{c}** - **{d['clean_score']}%**")
 
 data = COUNTIES[county]
 
-
+# ============================================
 # HEADER
-
+# ============================================
 st.title(f"🗑️ {county} Waste Management System")
-st.markdown(f"*NEMA {NEMA['year']} | Federated Learning | Clean City Score: {data['clean_score']}%*")
+st.markdown(f"*NEMA {NEMA['year']} | Federated Learning | Clean City Score: **{data['clean_score']}%***")
 st.markdown("---")
 
+# ============================================
 # METRICS ROW
-
+# ============================================
 col1, col2, col3, col4, col5 = st.columns(5)
 
 with col1:
@@ -182,9 +195,9 @@ with col5:
 
 st.markdown("---")
 
-
-# GAUGES
-
+# ============================================
+# GAUGES WITH VISIBLE PERCENTAGES
+# ============================================
 col1, col2 = st.columns(2)
 
 with col1:
@@ -192,12 +205,14 @@ with col1:
     fill = min(100, (data["waste_tons"] / (data["bins"] * 50)) * 100)
     hours = max(0, (100 - fill) / 12)
     
+    # Display percentage as large text above gauge
+    st.markdown(f"<h1 style='text-align:center; color:#ffaa66; font-size:48px;'>{fill:.1f}%</h1>", unsafe_allow_html=True)
+    
     fig1 = go.Figure(go.Indicator(
-        mode="gauge+number",
+        mode="gauge",
         value=fill,
-        number={"suffix": "%", "font": {"size": 40, "color": "white"}},
         gauge={
-            "axis": {"range": [0, 100], "tickcolor": "white"},
+            "axis": {"range": [0, 100], "tickcolor": "white", "tickwidth": 2, "tickfont": {"color": "white", "size": 12}},
             "bar": {"color": "#ff9800"},
             "steps": [
                 {"range": [0, 50], "color": "#2e7d32"},
@@ -207,7 +222,7 @@ with col1:
             "threshold": {"value": NEMA["threshold"], "line": {"color": "white", "width": 4}}
         }
     ))
-    fig1.update_layout(height=300, paper_bgcolor="rgba(0,0,0,0)", font={"color": "white"})
+    fig1.update_layout(height=250, paper_bgcolor="rgba(0,0,0,0)", font={"color": "white"})
     st.plotly_chart(fig1, use_container_width=True)
     
     if fill > 75:
@@ -217,12 +232,15 @@ with col1:
 
 with col2:
     st.markdown("#### 🎯 Cleanliness Score")
+    
+    # Display percentage as large text above gauge
+    st.markdown(f"<h1 style='text-align:center; color:#ffaa66; font-size:48px;'>{data['clean_score']:.1f}%</h1>", unsafe_allow_html=True)
+    
     fig2 = go.Figure(go.Indicator(
-        mode="gauge+number",
+        mode="gauge",
         value=data["clean_score"],
-        number={"suffix": "%", "font": {"size": 40, "color": "white"}},
         gauge={
-            "axis": {"range": [0, 100], "tickcolor": "white"},
+            "axis": {"range": [0, 100], "tickcolor": "white", "tickwidth": 2, "tickfont": {"color": "white", "size": 12}},
             "bar": {"color": data["color"]},
             "steps": [
                 {"range": [0, 50], "color": "#f44336", "name": "Dirty"},
@@ -231,7 +249,7 @@ with col2:
             ]
         }
     ))
-    fig2.update_layout(height=300, paper_bgcolor="rgba(0,0,0,0)", font={"color": "white"})
+    fig2.update_layout(height=250, paper_bgcolor="rgba(0,0,0,0)", font={"color": "white"})
     st.plotly_chart(fig2, use_container_width=True)
     
     if data["clean_score"] >= 70:
@@ -243,9 +261,9 @@ with col2:
 
 st.markdown("---")
 
-
+# ============================================
 # BIN STATUS
-
+# ============================================
 st.markdown("#### 📍 Bin Status")
 
 random.seed(hash(county) % 100)
@@ -260,7 +278,8 @@ fig3 = go.Figure(data=[go.Bar(
     y=bins_data,
     marker_color=colors,
     text=[f"{x:.0f}%" for x in bins_data],
-    textposition="outside"
+    textposition="outside",
+    textfont=dict(color="white", size=12)
 )])
 fig3.update_layout(
     height=300,
@@ -301,9 +320,9 @@ with col2:
 
 st.markdown("---")
 
-
+# ============================================
 # ALL CITIES COMPARISON
-
+# ============================================
 st.markdown("#### 🏆 All Cities - Cleanliness & Waste")
 
 all_cities = list(COUNTIES.keys())
@@ -319,7 +338,8 @@ fig4.add_trace(go.Bar(
     marker_color=all_scores,
     marker_colorscale="RdYlGn",
     text=[f"{x}%" for x in all_scores],
-    textposition="outside"
+    textposition="outside",
+    textfont=dict(color="white", size=14)
 ))
 fig4.add_trace(go.Scatter(
     x=all_cities,
@@ -361,9 +381,9 @@ with col2:
 
 st.markdown("---")
 
-
+# ============================================
 # RESEARCH SECTION - HOW TO MAKE CITIES CLEAN
-
+# ============================================
 st.markdown("## 📚 Research: How to Make Cities Clean")
 
 col1, col2 = st.columns(2)
@@ -380,9 +400,9 @@ with col2:
 
 st.markdown("---")
 
-
+# ============================================
 # RECOMMENDATIONS FOR SELECTED CITY
-
+# ============================================
 st.markdown(f"### 📋 Recommendations for {county}")
 
 col1, col2, col3 = st.columns(3)
@@ -416,9 +436,9 @@ with col3:
 
 st.markdown("---")
 
-
+# ============================================
 # FEDERATED LEARNING RESULTS
-
+# ============================================
 st.markdown("## 🔄 Federated Learning Results")
 
 col1, col2, col3 = st.columns(3)
@@ -441,9 +461,9 @@ with col3:
 
 st.markdown("---")
 
-
+# ============================================
 # FOOTER
-
+# ============================================
 col1, col2, col3 = st.columns(3)
 
 with col1:

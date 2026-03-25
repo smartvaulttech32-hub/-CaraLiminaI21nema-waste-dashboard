@@ -96,7 +96,7 @@ RESEARCH = {
 }
 
 # ============================================
-# FEDERATED LEARNING
+# FEDERATED LEARNING (Simple)
 # ============================================
 class FedAvg:
     def __init__(self):
@@ -251,17 +251,17 @@ st.markdown("---")
 st.markdown("#### 📍 Bin Status")
 
 random.seed(hash(county) % 100)
-bins_data = [min(100, max(20, random.uniform(20, 100) + (fill - 70))) for _ in range(data["bins"])]
+bins_data = [min(100, max(20, random.uniform(20, 100) + (fill - 70))) for _ in range(min(data["bins"], 30))]
 colors = ["#f44336" if x > 75 else "#ff9800" if x > 60 else "#2e7d32" for x in bins_data]
 critical = len([x for x in bins_data if x > 75])
 warning = len([x for x in bins_data if 60 < x <= 75])
 normal = len([x for x in bins_data if x <= 60])
 
 fig3 = go.Figure(data=[go.Bar(
-    x=[f"B{i+1}" for i in range(min(data["bins"], 30))],
-    y=bins_data[:30],
-    marker_color=colors[:30],
-    text=[f"{x:.0f}%" for x in bins_data[:30]],
+    x=[f"B{i+1}" for i in range(len(bins_data))],
+    y=bins_data,
+    marker_color=colors,
+    text=[f"{x:.0f}%" for x in bins_data],
     textposition="outside"
 )])
 fig3.update_layout(

@@ -1,8 +1,7 @@
-# ============================================
-# CMT 444: DISTRIBUTED MACHINE LEARNING
+
+# DISTRIBUTED MACHINE LEARNING
 # WASTE MANAGEMENT DASHBOARD
 # NEMA 2024 | CLEAN CITIES | FEDERATED LEARNING
-# ============================================
 
 import streamlit as st
 import pandas as pd
@@ -13,9 +12,9 @@ import random
 
 st.set_page_config(page_title="NEMA Waste Management | CMT 444", layout="wide")
 
-# ============================================
+
 # NEMA 2024 OFFICIAL DATA
-# ============================================
+
 NEMA = {
     "national": 22000,
     "per_capita": 0.5,
@@ -30,9 +29,9 @@ NEMA = {
     "source": "Simplified Waste Management Regulations, 2024"
 }
 
-# ============================================
+
 # KENYAN COUNTIES DATA
-# ============================================
+
 COUNTIES = {
     "Nairobi": {
         "pop": 4397000, "bins": 50, "waste_tons": 2198,
@@ -76,9 +75,9 @@ COUNTIES = {
     }
 }
 
-# ============================================
+
 # RESEARCH DATA
-# ============================================
+
 RESEARCH = {
     "best_practices": [
         {"practice": "Segregation at Source", "impact": "65% waste reduction", "cost": "Low"},
@@ -95,9 +94,9 @@ RESEARCH = {
     ]
 }
 
-# ============================================
-# FEDERATED LEARNING (Simple)
-# ============================================
+
+# FEDERATED LEARNING 
+
 class FedAvg:
     def __init__(self):
         self.weights = {}
@@ -111,9 +110,9 @@ for c, d in COUNTIES.items():
     fl.train(c, d)
 global_w = fl.aggregate()
 
-# ============================================
+
 # DARK THEME
-# ============================================
+
 st.markdown("""
 <style>
 .stApp { background-color: #0a0f1a; }
@@ -124,9 +123,9 @@ h1, h2, h3, p, .stMarkdown { color: white; }
 </style>
 """, unsafe_allow_html=True)
 
-# ============================================
+
 # SIDEBAR
-# ============================================
+
 with st.sidebar:
     st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Flag_of_Kenya.svg/1200px-Flag_of_Kenya.svg.png", width=70)
     st.markdown("## CMT 444")
@@ -159,16 +158,15 @@ with st.sidebar:
 
 data = COUNTIES[county]
 
-# ============================================
+
 # HEADER
-# ============================================
+
 st.title(f"🗑️ {county} Waste Management System")
 st.markdown(f"*NEMA {NEMA['year']} | Federated Learning | Clean City Score: {data['clean_score']}%*")
 st.markdown("---")
 
-# ============================================
 # METRICS ROW
-# ============================================
+
 col1, col2, col3, col4, col5 = st.columns(5)
 
 with col1:
@@ -184,9 +182,9 @@ with col5:
 
 st.markdown("---")
 
-# ============================================
+
 # GAUGES
-# ============================================
+
 col1, col2 = st.columns(2)
 
 with col1:
@@ -245,9 +243,9 @@ with col2:
 
 st.markdown("---")
 
-# ============================================
+
 # BIN STATUS
-# ============================================
+
 st.markdown("#### 📍 Bin Status")
 
 random.seed(hash(county) % 100)
@@ -303,9 +301,9 @@ with col2:
 
 st.markdown("---")
 
-# ============================================
+
 # ALL CITIES COMPARISON
-# ============================================
+
 st.markdown("#### 🏆 All Cities - Cleanliness & Waste")
 
 all_cities = list(COUNTIES.keys())
@@ -363,9 +361,9 @@ with col2:
 
 st.markdown("---")
 
-# ============================================
+
 # RESEARCH SECTION - HOW TO MAKE CITIES CLEAN
-# ============================================
+
 st.markdown("## 📚 Research: How to Make Cities Clean")
 
 col1, col2 = st.columns(2)
@@ -382,9 +380,9 @@ with col2:
 
 st.markdown("---")
 
-# ============================================
+
 # RECOMMENDATIONS FOR SELECTED CITY
-# ============================================
+
 st.markdown(f"### 📋 Recommendations for {county}")
 
 col1, col2, col3 = st.columns(3)
@@ -418,9 +416,9 @@ with col3:
 
 st.markdown("---")
 
-# ============================================
+
 # FEDERATED LEARNING RESULTS
-# ============================================
+
 st.markdown("## 🔄 Federated Learning Results")
 
 col1, col2, col3 = st.columns(3)
@@ -443,9 +441,9 @@ with col3:
 
 st.markdown("---")
 
-# ============================================
+
 # FOOTER
-# ============================================
+
 col1, col2, col3 = st.columns(3)
 
 with col1:

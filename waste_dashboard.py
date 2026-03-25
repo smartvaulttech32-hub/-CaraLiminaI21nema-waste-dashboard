@@ -128,7 +128,7 @@ h1, h2, h3, p, .stMarkdown { color: white; }
 
 with st.sidebar:
     st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Flag_of_Kenya.svg/1200px-Flag_of_Kenya.svg.png", width=70)
-    st.markdown("## CMT 444")
+    
     st.markdown("### Distributed ML")
     st.markdown("---")
     

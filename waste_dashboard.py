@@ -1,7 +1,6 @@
 # ============================================
-# CMT 444: DISTRIBUTED MACHINE LEARNING
+# DISTRIBUTED MACHINE LEARNING
 # WASTE MANAGEMENT DASHBOARD
-# REAL ML + AI PREDICTIONS | NEMA 2024
 # ============================================
 
 import streamlit as st
